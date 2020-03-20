@@ -1,10 +1,13 @@
-example_id                           | status  | run_time        |
------------------------------------- | ------- | --------------- |
-./spec/unit/app/api_spec.rb[1:1:1:1] | passed  | 0.00064 seconds |
-./spec/unit/app/api_spec.rb[1:1:1:2] | passed  | 0.00061 seconds |
-./spec/unit/app/api_spec.rb[1:1:2:1] | passed  | 0.0008 seconds  |
-./spec/unit/app/api_spec.rb[1:1:2:2] | passed  | 0.00452 seconds |
-./spec/unit/app/api_spec.rb[1:2:1:1] | passed  | 0.02196 seconds |
-./spec/unit/app/api_spec.rb[1:2:1:2] | passed  | 0.00098 seconds |
-./spec/unit/app/api_spec.rb[1:2:2:1] | pending | 0 seconds       |
-./spec/unit/app/api_spec.rb[1:2:2:2] | pending | 0.00001 seconds |
+example_id                                         | status  | run_time        |
+-------------------------------------------------- | ------- | --------------- |
+./spec/acceptance/expense_tracker_api_spec.rb[1:1] | pending | 0.02801 seconds |
+./spec/integration/app/ledger_spec.rb[1:1:1:1]     | failed  | 0.01817 seconds |
+./spec/integration/app/ledger_spec.rb[1:1:2:1]     | failed  | 0.00213 seconds |
+./spec/unit/app/api_spec.rb[1:1:1:1]               | passed  | 0.00162 seconds |
+./spec/unit/app/api_spec.rb[1:1:1:2]               | passed  | 0.02948 seconds |
+./spec/unit/app/api_spec.rb[1:1:2:1]               | passed  | 0.00069 seconds |
+./spec/unit/app/api_spec.rb[1:1:2:2]               | passed  | 0.00067 seconds |
+./spec/unit/app/api_spec.rb[1:2:1:1]               | passed  | 0.00137 seconds |
+./spec/unit/app/api_spec.rb[1:2:1:2]               | passed  | 0.02322 seconds |
+./spec/unit/app/api_spec.rb[1:2:2:1]               | pending | 0.00001 seconds |
+./spec/unit/app/api_spec.rb[1:2:2:2]               | pending | 0.00001 seconds |
