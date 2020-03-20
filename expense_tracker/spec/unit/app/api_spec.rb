@@ -10,8 +10,6 @@ require_relative '../../../app/api'
 require 'rack/test'
 
 module ExpenseTracker
-  RecordResult = Struct.new(:success?, :expense_id, :error_message)
-
   RSpec.describe API do
     include Rack::Test::Methods
 
@@ -20,6 +18,10 @@ module ExpenseTracker
     end
 
     let(:ledger) { instance_double('ExpenseTracker::Ledger') }
+
+    def parse_response(body)
+      JSON.parse(body)
+    end
 
     describe 'POST /expenses' do
       context 'when the expense is successfully recorded' do
@@ -31,10 +33,11 @@ module ExpenseTracker
                                .and_return(RecordResult.new(true, 417, nil))
         end
 
+
         it 'returns the expense id' do
           post '/expenses', JSON.generate(expense)
 
-          parsed = JSON.parse(last_response.body)
+          parsed = parse_response(last_response.body)
           expect(parsed).to include('expense_id' => 417)
         end
 
@@ -56,7 +59,7 @@ module ExpenseTracker
         it 'returns an error message' do
           post '/expenses',JSON.generate(expense)
 
-          parsed=JSON.parse(last_response.body)
+          parsed=parse_response(last_response.body)
           expect(parsed).to include('error' => 'Expense incomplete')
         end
 
@@ -64,6 +67,37 @@ module ExpenseTracker
           post '/expenses',JSON.generate(expense)
           expect(last_response.status).to eq(422)
         end
+      end
+    end
+
+    describe 'GET/expenses/:date' do #
+      context 'when expenses exist on the given date' do #
+        let(:date) { '2017-06-12' }
+        let(:expenses) { [{ 'date' => '2017-06-12' }, { 'date' => '2017-06-12' }] }
+
+        before do
+          allow(ledger).to receive(:expenses_on)
+                               .with(date)
+                               .and_return(ExpensesResult.new(true, expenses, nil))
+        end
+
+        it 'returns the expense records as JSON' do
+          get '/expenses/2017-06-12'
+
+          parsed = parse_response(last_response.body)
+          expect(parsed).to include({ 'date' => '2017-06-12' }, { 'date' => '2017-06-12' })
+        end
+
+        it 'responds with a 200 (OK)' do
+          get '/expenses/2017-06-12'
+
+          expect(last_response.status).to eq(200)
+        end
+      end
+
+      context 'when there are no expenses on the given date' do #
+        it 'returns an empty array as JSON'
+        it 'responds with a 200 (OK)'
       end
     end
   end
