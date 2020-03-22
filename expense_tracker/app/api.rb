@@ -26,7 +26,7 @@ module ExpenseTracker
       result = @ledger.expenses_on(date)
 
       if result.success?
-        JSON.generate([{ 'date' => '2017-06-12' }, { 'date' => '2017-06-12' }])
+        JSON.generate(result[:expenses])
       end
     end
   end

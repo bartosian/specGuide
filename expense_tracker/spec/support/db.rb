@@ -5,7 +5,12 @@
 # courses, books, articles, and the like. Contact us if you are in doubt.
 # We make no guarantees that this code is fit for any purpose.
 # Visit http://www.pragmaticprogrammer.com/titles/rspec3 for more book information.
-#---
+#--
+# -
+#
+
+require_relative '../../config/sequel'
+
 RSpec.configure do |c|
   c.before(:suite) do
     Sequel.extension :migration
