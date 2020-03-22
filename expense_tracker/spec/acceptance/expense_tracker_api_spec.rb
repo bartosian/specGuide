@@ -3,9 +3,21 @@ require 'json'
 
 require_relative '../../app/api'
 
+RSpec.shared_context 'API helpers' do
+  include Rack::Test::Methods
+
+  def app
+    ExpenseTracker::API.new
+  end
+
+  before do
+    basic_authorize 'test_user', 'test_password'
+  end
+end
+
 module ExpenseTracker #
   RSpec.describe 'Expense Tracker API', :db do
-    include Rack::Test::Methods
+    include_context 'API helpers'
 
     def post_expense(expense)
       post '/expenses', JSON.generate(expense)
@@ -14,10 +26,6 @@ module ExpenseTracker #
       expect(parsed).to include('expense_id'=>a_kind_of(Integer))
       expense.merge('id'=>parsed['expense_id'])
 
-    end
-
-    def app
-      ExpenseTracker::API.new
     end
 
     it 'records submitted expenses' do
